@@ -28,6 +28,7 @@ const CodeEditor = () => {
         setOutput(data.output);
       }
     } catch (err) {
+      console.error("Error reaching the server:", err); // ✅ Fix: Log error properly
       setOutput("Error: Could not reach server.");
     }
   };

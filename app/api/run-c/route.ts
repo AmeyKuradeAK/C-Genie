@@ -21,16 +21,23 @@ export async function POST(req: NextRequest) {
       clientSecret,
     };
 
-    // Send request to Jdoodle API
+    // Send request to JDoodle API
     const response = await fetch("https://api.jdoodle.com/v1/execute", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
+    // Check if response is OK
+    if (!response.ok) {
+      return NextResponse.json({ error: `JDoodle API error: ${response.statusText}` }, { status: response.status });
+    }
+
     const result = await response.json();
     return NextResponse.json(result);
   } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    console.error("Compilation error:", error);
     return NextResponse.json({ error: "Failed to compile code" }, { status: 500 });
   }
 }
